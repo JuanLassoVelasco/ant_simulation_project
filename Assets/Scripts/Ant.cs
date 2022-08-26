@@ -10,6 +10,10 @@ public class Ant : MonoBehaviour
     [SerializeField] private SpriteRenderer heldFoodIndicator;
     [SerializeField] private GameObject colonyTrackerPheremonePrefab;
     [SerializeField] private GameObject foodTrackerPheremonePrefab;
+    [SerializeField] private GameObject leftSensor;
+    [SerializeField] private GameObject middleSensor;
+    [SerializeField] private GameObject rightSensor;
+    [SerializeField] private float sensorRadius = 3.0f;
     [SerializeField] private float speed = 2.0f;
     [SerializeField] private float turnStrength = 2.0f;
     [SerializeField] private float wanderStrength = 1.0f;
@@ -25,6 +29,10 @@ public class Ant : MonoBehaviour
     private Vector2 velocity;
     private Vector2 position;
 
+    private string colonyPheremoneTag = "ColonyPheremone";
+    private string foodPheremoneTag = "FoodPheremone";
+    private string trackingPheremone;
+
     private float previousTime = 0;
     private float currentTime = 0;
 
@@ -33,6 +41,8 @@ public class Ant : MonoBehaviour
     private void Start()
     {
         previousTime = Time.fixedTime;
+        trackingPheremone = foodPheremoneTag;
+        position = transform.position;
     }
 
     private void Update()
@@ -70,11 +80,22 @@ public class Ant : MonoBehaviour
 
     private void SearchForColony()
     {
-        Collider2D colony = Physics2D.OverlapCircle(gameObject.transform.position, searchRadius, colonyLayer);
+        Collider2D colony = Physics2D.OverlapCircle(position, searchRadius, colonyLayer);
 
         if (colony != null)
         {
             target = colony.transform;
+            hasTarget = true;
+        }
+    }
+
+    private void SearchForFood()
+    {
+        Collider2D[] visibleFood = Physics2D.OverlapCircleAll(position, searchRadius, foodLayer);
+
+        if (visibleFood.Length > 0)
+        {
+            target = visibleFood[Random.Range(0, visibleFood.Length)].transform;
             hasTarget = true;
         }
     }
@@ -88,7 +109,58 @@ public class Ant : MonoBehaviour
         else
         {
             desiredDirection = (desiredDirection + Random.insideUnitCircle * wanderStrength).normalized;
+            ScanForPheremoneTrail();
         }
+    }
+
+    private void ScanForPheremoneTrail()
+    {
+        int leftPCount = SampleSensorArea(leftSensor);
+        int middlePCount = SampleSensorArea(middleSensor);
+        int rightPCount = SampleSensorArea(rightSensor);
+
+        if (leftPCount + middlePCount + rightPCount > 0)
+        {
+            if (leftPCount > rightPCount)
+            {
+                desiredDirection = ((Vector2)leftSensor.transform.position - position).normalized;
+            }
+            else if (middlePCount > Max(leftPCount, rightPCount))
+            {
+                desiredDirection = ((Vector2)middleSensor.transform.position - position).normalized;
+            }
+            else if (rightPCount > leftPCount)
+            {
+                desiredDirection = ((Vector2)rightSensor.transform.position - position).normalized;
+            }
+        }
+    }
+
+    private int Max(int num1, int num2)
+    {
+        if (num1 > num2)
+        {
+            return num1;
+        }
+
+        return num2;
+    }
+
+    private int SampleSensorArea(GameObject sensor)
+    {
+        int pheremoneCount = 0;
+
+        Collider2D[] pheremones = Physics2D.OverlapCircleAll(sensor.transform.position, sensorRadius);
+
+        foreach (Collider2D pheremone in pheremones)
+        {
+            if (pheremone.CompareTag(trackingPheremone))
+            {
+                pheremoneCount++;
+            }
+        }
+
+        return pheremoneCount;
     }
 
     private void MoveInDesiredDirection()
@@ -116,20 +188,10 @@ public class Ant : MonoBehaviour
         }
     }
 
-    private void SearchForFood()
-    {
-        Collider2D[] visibleFood = Physics2D.OverlapCircleAll(position, searchRadius, foodLayer);
-
-        if (visibleFood.Length > 0)
-        {
-            target = visibleFood[Random.Range(0, visibleFood.Length)].transform;
-            hasTarget = true;
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground")) return;
+        if (collision.gameObject.CompareTag("Ant")) return;
 
 
         velocity = -velocity;
@@ -151,7 +213,8 @@ public class Ant : MonoBehaviour
         {
             if (isCarryingFood)
             {
-                DropOffFood();
+                Colony colony = collision.GetComponent<Colony>();
+                DropOffFood(colony);
                 target = null;
             }
         }
@@ -164,14 +227,28 @@ public class Ant : MonoBehaviour
         isCarryingFood = true;
         heldFoodIndicator.color = foodColorTemp;
         currentFoodCargo++;
+        trackingPheremone = colonyPheremoneTag;
+        target = null;
     }
 
-    private void DropOffFood()
+    private void DropOffFood(Colony colony)
     {
         Color foodColorTemp = heldFoodIndicator.color;
+        colony.StoreFood(currentFoodCargo);
         foodColorTemp.a = 0;
         isCarryingFood = false;
         heldFoodIndicator.color = foodColorTemp;
         currentFoodCargo = 0;
+        trackingPheremone = foodPheremoneTag;
+    }
+
+    public int GetAntCargo()
+    {
+        return currentFoodCargo;
+    }
+
+    public int GetAntCarryingCapacity()
+    {
+        return foodCapacity;
     }
 }

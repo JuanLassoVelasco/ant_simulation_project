@@ -13,7 +13,7 @@ public class FoodSpawner : MonoBehaviour
             Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
 
-            if (hit)
+            if (hit.collider.gameObject.CompareTag("Ground"))
             {
                 Instantiate(foodPrefab, hit.point, Quaternion.identity);
             }

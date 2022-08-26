@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 5834790335603279124}
   - component: {fileID: 8755147127686625388}
   - component: {fileID: 3862510735333693023}
+  - component: {fileID: 2596187373847837567}
   m_Layer: 7
   m_Name: Colony
   m_TagString: Colony
@@ -199,3 +200,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2596187373847837567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2604812279444415796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c5ccdea3a6641f6a99e04c1c30b024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodCountText: {fileID: 452951866333895085}
+  antPrefab: {fileID: 5561447670210501460, guid: 0ec44e7911e304acdb4fbb6c6128f6e7, type: 3}
+  antPopulation: 10

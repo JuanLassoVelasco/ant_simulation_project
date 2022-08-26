@@ -8,7 +8,12 @@ public class FoodBehaviour : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ant"))
         {
-            Destroy(this.gameObject);
+            Ant ant = GetComponent<Ant>();
+
+            if (ant.GetAntCargo() < ant.GetAntCarryingCapacity())
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }
