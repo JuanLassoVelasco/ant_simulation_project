@@ -108,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2292599524903485010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: 0}
+  m_LocalPosition: {x: 5.08, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -380,18 +380,18 @@ MonoBehaviour:
     m_Bits: 64
   colonyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   heldFoodIndicator: {fileID: 5901802233644933290}
   colonyTrackerPheremonePrefab: {fileID: 201083417971309099, guid: c1b8875be6fdf43b1b798253e81c31fb, type: 3}
   foodTrackerPheremonePrefab: {fileID: 4281823043642856279, guid: 5f2600b175e72486cb25a2d5c7daaa39, type: 3}
   leftSensor: {fileID: 8460567004683332114}
   middleSensor: {fileID: 2292599524903485010}
   rightSensor: {fileID: 7988285945337864060}
-  sensorRadius: 3
-  speed: 10
-  turnStrength: 10
+  sensorRadius: 5
+  speed: 30
+  turnStrength: 70
   wanderStrength: 0.12
-  searchRadius: 10
+  searchRadius: 15
   pheremoneReleaseRate: 0.1
   foodCapacity: 1
   target: {fileID: 0}
@@ -538,7 +538,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7988285945337864060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -3, z: 0}
+  m_LocalPosition: {x: 2.35, y: -3.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -653,7 +653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8460567004683332114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 3, z: 0}
+  m_LocalPosition: {x: 2.35, y: 3.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

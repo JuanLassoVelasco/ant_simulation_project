@@ -114,4 +114,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f69ebf744ac438a9cb99769300932e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pheremoneLifetime: 40
+  pheremoneLifetime: 20

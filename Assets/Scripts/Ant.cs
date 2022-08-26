@@ -193,9 +193,8 @@ public class Ant : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground")) return;
         if (collision.gameObject.CompareTag("Ant")) return;
 
-
-        velocity = -velocity;
-        desiredDirection = collision.GetContact(0).normal;
+        velocity += velocity.magnitude * collision.GetContact(0).normal;
+        desiredDirection = velocity.magnitude * collision.GetContact(0).normal;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -206,7 +205,7 @@ public class Ant : MonoBehaviour
         {
             if (!(currentFoodCargo >= foodCapacity))
             {
-                CollectFood();
+                CollectFood(collision);
             }
         }
         else if (collision.gameObject.CompareTag("Colony"))
@@ -220,7 +219,7 @@ public class Ant : MonoBehaviour
         }
     }
 
-    private void CollectFood()
+    private void CollectFood(Collider2D collision)
     {
         Color foodColorTemp = heldFoodIndicator.color;
         foodColorTemp.a = 1;
@@ -228,6 +227,7 @@ public class Ant : MonoBehaviour
         heldFoodIndicator.color = foodColorTemp;
         currentFoodCargo++;
         trackingPheremone = colonyPheremoneTag;
+        Destroy(collision.gameObject);
         target = null;
     }
 
