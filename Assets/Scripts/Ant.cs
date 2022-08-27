@@ -123,15 +123,15 @@ public class Ant : MonoBehaviour
         {
             if (leftPCount > rightPCount)
             {
-                desiredDirection = ((Vector2)leftSensor.transform.position - position).normalized;
+                desiredDirection += ((Vector2)leftSensor.transform.position - position).normalized;
             }
             else if (middlePCount > Max(leftPCount, rightPCount))
             {
-                desiredDirection = ((Vector2)middleSensor.transform.position - position).normalized;
+                desiredDirection += ((Vector2)middleSensor.transform.position - position).normalized;
             }
             else if (rightPCount > leftPCount)
             {
-                desiredDirection = ((Vector2)rightSensor.transform.position - position).normalized;
+                desiredDirection += ((Vector2)rightSensor.transform.position - position).normalized;
             }
         }
     }
@@ -229,6 +229,7 @@ public class Ant : MonoBehaviour
         trackingPheremone = colonyPheremoneTag;
         Destroy(collision.gameObject);
         target = null;
+        velocity = -velocity;
     }
 
     private void DropOffFood(Colony colony)
@@ -240,6 +241,7 @@ public class Ant : MonoBehaviour
         heldFoodIndicator.color = foodColorTemp;
         currentFoodCargo = 0;
         trackingPheremone = foodPheremoneTag;
+        velocity = -velocity;
     }
 
     public int GetAntCargo()

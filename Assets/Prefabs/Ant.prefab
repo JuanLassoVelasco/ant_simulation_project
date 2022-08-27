@@ -389,8 +389,8 @@ MonoBehaviour:
   rightSensor: {fileID: 7988285945337864060}
   sensorRadius: 5
   speed: 30
-  turnStrength: 70
-  wanderStrength: 0.12
+  turnStrength: 100
+  wanderStrength: 0.2
   searchRadius: 15
   pheremoneReleaseRate: 0.1
   foodCapacity: 1
