@@ -12714,7 +12714,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2596187373847837567, guid: 5f896c2f455ad46389aac503ba57c211, type: 3}
       propertyPath: antPopulation
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2604812279444415796, guid: 5f896c2f455ad46389aac503ba57c211, type: 3}
       propertyPath: m_Name

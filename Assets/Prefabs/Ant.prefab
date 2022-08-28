@@ -387,10 +387,11 @@ MonoBehaviour:
   leftSensor: {fileID: 8460567004683332114}
   middleSensor: {fileID: 2292599524903485010}
   rightSensor: {fileID: 7988285945337864060}
-  sensorRadius: 5
+  sensorRadius: 6
   speed: 30
   turnStrength: 100
-  wanderStrength: 0.2
+  wanderStrength: 0.12
+  deviationStrength: 6
   searchRadius: 15
   pheremoneReleaseRate: 0.1
   foodCapacity: 1

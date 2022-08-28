@@ -17,6 +17,7 @@ public class Ant : MonoBehaviour
     [SerializeField] private float speed = 2.0f;
     [SerializeField] private float turnStrength = 2.0f;
     [SerializeField] private float wanderStrength = 1.0f;
+    [SerializeField] private float deviationStrength = 5.0f;
     [SerializeField] private float searchRadius = 4.0f;
     [SerializeField] private float pheremoneReleaseRate = 1.0f;
     [SerializeField] private int foodCapacity = 1;
@@ -108,8 +109,8 @@ public class Ant : MonoBehaviour
         }
         else
         {
-            desiredDirection = (desiredDirection + Random.insideUnitCircle * wanderStrength).normalized;
             ScanForPheremoneTrail();
+            desiredDirection = (desiredDirection + Random.insideUnitCircle * wanderStrength).normalized;
         }
     }
 
@@ -119,20 +120,28 @@ public class Ant : MonoBehaviour
         int middlePCount = SampleSensorArea(middleSensor);
         int rightPCount = SampleSensorArea(rightSensor);
 
+        Vector2 leftTurn = ((Vector2)leftSensor.transform.position - position).normalized;
+        Vector2 forward = ((Vector2)middleSensor.transform.position - position).normalized;
+        Vector2 rightTurn = ((Vector2)rightSensor.transform.position - position).normalized;
+
+        Vector2[] turnList = { leftTurn, rightTurn };
+
         if (leftPCount + middlePCount + rightPCount > 0)
         {
             if (leftPCount > rightPCount)
             {
-                desiredDirection += ((Vector2)leftSensor.transform.position - position).normalized;
+                desiredDirection = leftTurn;
             }
             else if (middlePCount > Max(leftPCount, rightPCount))
             {
-                desiredDirection += ((Vector2)middleSensor.transform.position - position).normalized;
+                desiredDirection = forward;
             }
             else if (rightPCount > leftPCount)
             {
-                desiredDirection += ((Vector2)rightSensor.transform.position - position).normalized;
+                desiredDirection = rightTurn;
             }
+
+            desiredDirection += turnList[Random.Range(0,2)] * wanderStrength * deviationStrength;
         }
     }
 
